@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 15% 10%, #15446f, transparent 35%),
+    radial-gradient(circle at 90% 25%, #0f6f67, transparent 32%),
+    #050b14;
+  color: #e2e8f0;
+}
+
+.panel {
+  @apply rounded-2xl border border-white/10 bg-slate-900/70 backdrop-blur-lg shadow-glow;
+}
+
+.input {
+  @apply w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100 outline-none transition focus:border-mint;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold transition;
+}
+
+.btn-primary {
+  @apply btn bg-mint text-ink hover:bg-emerald-300;
+}
+
+.btn-secondary {
+  @apply btn border border-slate-500 text-slate-100 hover:border-mint hover:text-mint;
+}
