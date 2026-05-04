@@ -82,12 +82,25 @@ const parseVault = (payload) => {
     throw new ApiError(400, 'Payload must be an object', 'VALIDATION_ERROR');
   }
 
+  const friends = parseFriends(payload.friends);
+  const shareHashes = payload.shareHashes;
+  if (!Array.isArray(shareHashes) || shareHashes.length !== friends.length) {
+    throw new ApiError(400, 'shareHashes must contain exactly 5 entries', 'VALIDATION_ERROR');
+  }
+
   return {
     encryptedVault: ensureString(payload.encryptedVault, 'encryptedVault', 32, 50000),
     iv: ensureString(payload.iv, 'iv', 8, 200),
     salt: ensureString(payload.salt, 'salt', 8, 200),
     threshold: ensureInt(payload.threshold, 'threshold', 2, 5, 3),
-    friends: parseFriends(payload.friends),
+    friends,
+    shareHashes: shareHashes.map((value, index) => {
+      const hash = ensureString(value, `shareHashes[${index}]`, 64, 64);
+      if (!/^[a-f0-9]{64}$/.test(hash)) {
+        throw new ApiError(400, `shareHashes[${index}] must be a valid 64-char hex string`, 'VALIDATION_ERROR');
+      }
+      return hash;
+    }),
     checkInIntervalDays: ensureInt(payload.checkInIntervalDays, 'checkInIntervalDays', 1, 365, 30),
     recoveryAccessCode: ensureString(payload.recoveryAccessCode, 'recoveryAccessCode', 8, 128),
   };

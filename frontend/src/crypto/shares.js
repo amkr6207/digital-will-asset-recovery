@@ -6,6 +6,8 @@ const decoder = new TextDecoder();
 const toBase64 = (arr) => btoa(String.fromCharCode(...arr));
 const fromBase64 = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
 
+const toHex = (arr) => Array.from(arr, (byte) => byte.toString(16).padStart(2, '0')).join('');
+
 export function splitSecret(secret, shares = 5, threshold = 3) {
   const parts = sss.split(encoder.encode(secret), { shares, threshold });
   return parts.map((part) => toBase64(part));
@@ -14,4 +16,9 @@ export function splitSecret(secret, shares = 5, threshold = 3) {
 export function combineShares(base64Shares) {
   const joined = sss.combine(base64Shares.map((item) => fromBase64(item)));
   return decoder.decode(joined);
+}
+
+export async function hashShare(share) {
+  const digest = await crypto.subtle.digest('SHA-256', encoder.encode(share));
+  return toHex(new Uint8Array(digest));
 }

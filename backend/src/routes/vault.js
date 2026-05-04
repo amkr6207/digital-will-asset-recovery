@@ -21,14 +21,16 @@ router.post(
       salt,
       threshold = 3,
       friends,
+      shareHashes,
       checkInIntervalDays = 30,
       recoveryAccessCode,
     } = req.body;
 
-    const friendRecords = friends.map((friend) => ({
+    const friendRecords = friends.map((friend, index) => ({
       name: friend.name,
       email: friend.email,
       inviteToken: generateInviteToken(),
+      shareHash: shareHashes[index],
     }));
 
     const recoveryAccessHash = await bcrypt.hash(recoveryAccessCode, 12);
