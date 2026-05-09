@@ -5,6 +5,7 @@ const contactSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, lowercase: true },
     inviteToken: { type: String, required: true, unique: true },
+    shareHash: { type: String, required: true },
   },
   { _id: false }
 );

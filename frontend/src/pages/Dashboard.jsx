@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { encryptVault, decryptVault } from '../crypto/webCrypto';
-import { splitSecret, combineShares } from '../crypto/shares';
+import { splitSecret, combineShares, hashShare } from '../crypto/shares';
 
 const defaultFriends = Array.from({ length: 5 }, (_, idx) => ({ name: `Friend ${idx + 1}`, email: '' }));
 
@@ -79,12 +79,14 @@ export default function Dashboard() {
       );
 
       const shares = splitSecret(passphrase, 5, threshold);
+      const shareHashes = await Promise.all(shares.map((share) => hashShare(share)));
 
       const payload = {
         ...encrypted,
         threshold,
         checkInIntervalDays,
         friends,
+        shareHashes,
         recoveryAccessCode,
       };
 

@@ -10,6 +10,7 @@ const { parseRecoveryStart, parseSubmitShare, parseUnlock } = require('../valida
 const { getStatus, isEligibleForRecovery } = require('../services/deadmanService');
 const env = require('../config/env');
 const ApiError = require('../utils/ApiError');
+const { hashShare } = require('../utils/shareHash');
 
 const router = express.Router();
 
@@ -115,6 +116,10 @@ router.post(
     const alreadySubmitted = vault.submittedShares.some((s) => s.inviteToken === inviteToken);
     if (alreadySubmitted) {
       throw new ApiError(409, 'Share already submitted for this token', 'SHARE_ALREADY_SUBMITTED');
+    }
+
+    if (hashShare(share) !== friend.shareHash) {
+      throw new ApiError(400, 'Submitted share does not match the expected recovery share', 'SHARE_INVALID');
     }
 
     vault.submittedShares.push({
