@@ -1,6 +1,6 @@
 # Digital Will & Asset Recovery
 
-Production-ready **self-custodial dead-man switch** for digital inheritance and account recovery.
+Self-custodial **dead-man switch** for digital inheritance and account recovery.
 
 ## Live Demo
 
@@ -52,21 +52,6 @@ Digital Will uses a **self-custodial recovery design**:
 5. If inactivity threshold is crossed, recovery session starts.
 6. Contacts submit shares; threshold unlocks vault recovery.
 7. Family reconstructs secret and decrypts vault content.
-
-## What this version includes
-
-- React + Tailwind frontend
-- Node.js + Express + MongoDB backend
-- JWT auth + bcrypt password hashing
-- Client-side vault encryption with Web Crypto (AES-GCM + PBKDF2)
-- Secret splitting/recombination (Shamir Secret Sharing)
-- Dead-man switch with check-in deadlines
-- Recovery session expiry window
-- Recovery access code (hashed server-side)
-- Request validation + centralized API errors + request IDs
-- CORS allow-list + Helmet + per-IP rate limiting
-- Dockerfiles + `docker-compose.yml`
-- GitHub Actions CI
 
 ## Project structure
 
@@ -127,13 +112,6 @@ docker compose up --build
 - Frontend: `http://localhost:8080`
 - Backend: `http://localhost:5000/api/health`
 
-## CI
-
-On every push/PR:
-
-- Backend: `npm ci` + `npm test`
-- Frontend: `npm ci` + `npm run build`
-
 ## Deploy (GitHub -> Cloud)
 
 ### Option A: Render + Vercel
@@ -153,20 +131,11 @@ On every push/PR:
 
 ### Option B: Single-VM Docker deploy
 
-1. Install Docker + Docker Compose on your VM.
-2. Clone repo and create `backend/.env`.
-3. Run `docker compose up -d --build`.
-4. Put nginx/traefik in front with HTTPS (Let's Encrypt).
-
-## Production checklist before go-live
-
-- Use a strong 32+ char `JWT_SECRET`
-- Restrict `CORS_ORIGIN` to exact frontend domain
-- Use managed MongoDB with network restrictions
-- Enable HTTPS only
-- Add email/SMS delivery for recovery notifications
-- Add audit logs and security monitoring
-- Add integration/e2e tests for auth + recovery flows
+1. Install Docker and Docker Compose on your VM.
+2. Clone the repo and create `backend/.env`.
+3. Update the frontend API URL/build configuration if your public backend URL differs from the default.
+4. Run `docker compose up -d --build`.
+5. Put nginx or traefik in front with HTTPS.
 
 ## Available API routes
 
