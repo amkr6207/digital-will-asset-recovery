@@ -1,6 +1,6 @@
 services:
   mongodb:
-    image: mongo:7
+    image: mongo:7 # same image as `docker run mongo:7`
     restart: unless-stopped
     ports:
       - '27017:27017'
