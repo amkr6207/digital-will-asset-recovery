@@ -5,7 +5,6 @@ Self-custodial **dead-man switch** for digital inheritance and account recovery.
 ## Live Demo
 
 - Frontend (Vercel): [https://digital-will-asset-recovery.vercel.app](https://digital-will-asset-recovery.vercel.app)
-- Source Code (GitHub): [https://github.com/amkr6207/digital-will-asset-recovery](https://github.com/amkr6207/digital-will-asset-recovery)
 - Backend (Render): [https://digital-will-asset-recovery.onrender.com](https://digital-will-asset-recovery.onrender.com)
 
 ## Problem Statement
